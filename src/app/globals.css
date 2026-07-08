@@ -1,26 +1,385 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-poppins);
+
+  /* GovBid palette */
+  --color-charcoal: #54565B;
+  --color-govred: #E03C31;
+  --color-govred-hover: #C22F26;
+  --color-offwhite: #F8F7F5;
+  --color-grey: #8A8D91;
+  --color-grey-light: #E5E5E5;
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: #F8F7F5;
+  --foreground: #54565B;
+  --card: #FFFFFF;
+  --card-foreground: #54565B;
+  --primary: #E03C31;
+  --primary-foreground: #FFFFFF;
+  --secondary: #54565B;
+  --secondary-foreground: #FFFFFF;
+  --muted: #F8F7F5;
+  --muted-foreground: #8A8D91;
+  --accent: #F8F7F5;
+  --accent-foreground: #54565B;
+  --destructive: #E03C31;
+  --border: #E5E5E5;
+  --input: #E5E5E5;
+  --ring: #E03C31;
+  --radius: 0.5rem;
+  --popover: #FFFFFF;
+  --popover-foreground: #54565B;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-inter), system-ui, sans-serif;
+  }
+  body {
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-poppins), system-ui, sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ===== HOW IT WORKS (scoped under .gb-process) ===== */
+.gb-process {
+  --gb-charcoal: #54565B;
+  --gb-red: #E03C31;
+  --gb-red-hover: #C22F26;
+  --gb-bg: #F8F7F5;
+  --gb-card: #FFFFFF;
+  --gb-muted: #8A8D91;
+  background: var(--gb-bg);
+  font-family: var(--font-inter), -apple-system, sans-serif;
+  color: var(--gb-charcoal);
+  padding: 72px 24px;
+  scroll-margin-top: 64px;
+}
+.gb-process * { box-sizing: border-box; }
+
+.gb-process .gb-inner { max-width: 1080px; margin: 0 auto; }
+
+.gb-process .gb-kicker {
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--gb-red-hover); /* darker red for AA at 12px */
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+.gb-process h2 {
+  font-family: var(--font-poppins), sans-serif;
+  font-weight: 700;
+  font-size: clamp(26px, 4vw, 38px);
+  line-height: 1.15;
+  margin: 0 0 48px;
+  color: var(--gb-charcoal);
+  max-width: 560px;
+}
+
+.gb-process .gb-grid-wrap { position: relative; }
+
+/* Progress rail (decorative) — shows the 6-step flow above the grid */
+.gb-process .gb-rail {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 14px;
+  margin: 4px 0 40px;
+  padding: 0 4px;
+}
+.gb-process .gb-rail::before { /* grey track */
+  content: "";
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: #E5E5E5;
+}
+.gb-process .gb-rail-fill { /* charcoal progress fill, sweeps L→R */
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  width: calc(100% - 8px);
+  background: var(--gb-charcoal);
+  z-index: 1;
+}
+.gb-process .gb-rail-node {
+  position: relative;
+  z-index: 2;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--gb-charcoal);
+  box-shadow: 0 0 0 4px var(--gb-bg); /* halo so the track appears to break at nodes */
+}
+
+.gb-process ol.gb-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr; /* equal-height rows: every card is the same size */
+  gap: 28px;
+  position: relative;
+}
+.gb-process ol.gb-steps > li { display: flex; } /* let the card fill its cell */
+
+.gb-process .gb-card {
+  width: 100%;
+  background: var(--gb-card);
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 2px 6px rgba(84, 86, 91, 0.08), 0 8px 24px rgba(84, 86, 91, 0.06);
+  /* hover uses `translate` so it never clashes with the reveal `transform` */
+  transition: translate 0.22s var(--ease-out), box-shadow 0.22s var(--ease-out);
+  position: relative;
+}
+.gb-process .gb-card:hover {
+  translate: 0 -3px;
+  box-shadow: 0 4px 10px rgba(84, 86, 91, 0.10), 0 14px 32px rgba(84, 86, 91, 0.10);
+}
+
+.gb-process .gb-num {
+  font-family: var(--font-poppins), sans-serif;
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--gb-red);
+  display: block;
+  margin-bottom: 14px;
+}
+.gb-process .gb-card h3 {
+  font-family: var(--font-poppins), sans-serif;
+  font-weight: 600;
+  font-size: 19px;
+  margin: 0 0 10px;
+  color: var(--gb-charcoal);
+}
+.gb-process .gb-card p {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--gb-muted); /* uniform grey body text */
+}
+.gb-process .gb-card p strong { color: inherit; font-weight: 400; }
+
+/* Animation (progressive enhancement) — cards + rail reveal in lockstep,
+   so the whole thing reads as the pipeline activating step by step. */
+@keyframes gb-card-rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.gb-process.gb-anim .gb-card { opacity: 0; }
+.gb-process.gb-anim .gb-rail-fill { width: 0; }
+.gb-process.gb-anim .gb-rail-node { background: #E5E5E5; }
+
+/* Each card rises via its own animation (animation-delay staggers without
+   delaying the hover transition — that was the old bug). */
+.gb-process.gb-anim.gb-inview .gb-card {
+  animation: gb-card-rise 0.5s var(--ease-out) both;
+}
+.gb-process.gb-anim.gb-inview li:nth-child(1) .gb-card { animation-delay: 0.12s; }
+.gb-process.gb-anim.gb-inview li:nth-child(2) .gb-card { animation-delay: 0.28s; }
+.gb-process.gb-anim.gb-inview li:nth-child(3) .gb-card { animation-delay: 0.44s; }
+.gb-process.gb-anim.gb-inview li:nth-child(4) .gb-card { animation-delay: 0.60s; }
+.gb-process.gb-anim.gb-inview li:nth-child(5) .gb-card { animation-delay: 0.76s; }
+.gb-process.gb-anim.gb-inview li:nth-child(6) .gb-card { animation-delay: 0.92s; }
+
+/* Rail fill sweeps L→R; nodes light up on the SAME cadence as the cards. */
+.gb-process.gb-anim.gb-inview .gb-rail-fill {
+  width: calc(100% - 8px);
+  transition: width 1.1s var(--ease-out) 0.1s;
+}
+.gb-process.gb-anim.gb-inview .gb-rail-node {
+  background: var(--gb-charcoal);
+  transition: background 0.3s var(--ease-out);
+}
+.gb-process.gb-anim.gb-inview .gb-rail-node:nth-child(2) { transition-delay: 0.12s; }
+.gb-process.gb-anim.gb-inview .gb-rail-node:nth-child(3) { transition-delay: 0.28s; }
+.gb-process.gb-anim.gb-inview .gb-rail-node:nth-child(4) { transition-delay: 0.44s; }
+.gb-process.gb-anim.gb-inview .gb-rail-node:nth-child(5) { transition-delay: 0.60s; }
+.gb-process.gb-anim.gb-inview .gb-rail-node:nth-child(6) { transition-delay: 0.76s; }
+.gb-process.gb-anim.gb-inview .gb-rail-node:nth-child(7) { transition-delay: 0.92s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gb-process.gb-anim .gb-card,
+  .gb-process.gb-anim.gb-inview .gb-card { opacity: 1; animation: none; }
+  .gb-process.gb-anim .gb-rail-fill { width: calc(100% - 8px); transition: none; }
+  .gb-process.gb-anim .gb-rail-node { background: var(--gb-charcoal); transition: none; }
+  .gb-process .gb-card { transition: none; }
+}
+
+/* Tablet: 2×3 */
+@media (max-width: 900px) {
+  .gb-process ol.gb-steps { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Mobile: vertical timeline */
+@media (max-width: 560px) {
+  .gb-process { padding: 56px 20px; }
+  .gb-process .gb-rail { display: none; } /* vertical timeline takes over */
+  .gb-process ol.gb-steps { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 0; }
+  .gb-process ol.gb-steps li {
+    position: relative;
+    padding: 0 0 24px 56px;
+  }
+  .gb-process ol.gb-steps li::before {
+    content: "";
+    position: absolute;
+    left: 19px;
+    top: 8px;
+    bottom: -8px;
+    width: 2px;
+    background: repeating-linear-gradient(
+      to bottom, var(--gb-muted) 0 4px, transparent 4px 10px);
+    opacity: 0.55;
+  }
+  .gb-process ol.gb-steps li:last-child::before { display: none; }
+  .gb-process ol.gb-steps li .gb-num {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    font-size: 19px;
+    background: var(--gb-card);
+    color: var(--gb-red);
+    box-shadow: 0 1px 3px rgba(84, 86, 91, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+  .gb-process .gb-card { padding: 20px; }
+}
+
+/* ===== Legal pages (Privacy / Terms) prose ===== */
+.legal-prose {
+  color: #54565B;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.legal-prose h2 {
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #54565B;
+  margin: 40px 0 12px;
+}
+.legal-prose h2:first-child { margin-top: 0; }
+.legal-prose p { margin: 0 0 16px; }
+.legal-prose ul {
+  margin: 0 0 16px;
+  padding-left: 20px;
+  list-style: disc;
+}
+.legal-prose li { margin: 0 0 8px; }
+.legal-prose a {
+  color: #C22F26;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.legal-prose a:hover { color: #54565B; }
+.legal-prose strong { font-weight: 600; color: #54565B; }
+.legal-prose .table-wrap {
+  overflow-x: auto;
+  margin: 0 0 24px;
+}
+.legal-prose table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 560px;
+  font-size: 14px;
+}
+.legal-prose th,
+.legal-prose td {
+  border: 1px solid #E5E5E5;
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+.legal-prose th {
+  background: #F8F7F5;
+  font-family: var(--font-poppins), sans-serif;
+  font-weight: 600;
+  color: #54565B;
+}
+
+/* ===== Motion — strong custom easing, purposeful & subtle (Emil Kowalski principles) ===== */
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Hero entrance — first-view delight; staggered rise, ease-out */
+  @keyframes gb-rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: none; }
+  }
+  .hero-rise > * {
+    opacity: 0;
+    animation: gb-rise 600ms var(--ease-out) forwards;
+  }
+  .hero-rise > *:nth-child(1) { animation-delay: 20ms; }
+  .hero-rise > *:nth-child(2) { animation-delay: 100ms; }
+  .hero-rise > *:nth-child(3) { animation-delay: 180ms; }
+  .hero-rise > *:nth-child(4) { animation-delay: 260ms; }
+
+  /* Press feedback on every brand-red button — "buttons must feel responsive" */
+  .bg-govred {
+    transition: transform 140ms var(--ease-out), background-color 150ms var(--ease-out);
+  }
+  .bg-govred:active { transform: scale(0.97); }
 }
