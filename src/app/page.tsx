@@ -123,7 +123,7 @@ export default function Home() {
               </button>
             </div>
             <p className="text-sm text-grey">
-              Monitoring Find a Tender and Contracts Finder &middot; UK-wide
+              Monitoring UK Wide Tenders
             </p>
           </div>
         </section>
