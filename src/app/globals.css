@@ -219,6 +219,12 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+/* Opacity-only reveal (no transform) — used on mobile so the card never becomes
+   a containing block for the absolutely-positioned number node. */
+@keyframes gb-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 .gb-process.gb-anim .gb-card { opacity: 0; }
 .gb-process.gb-anim .gb-rail-fill { width: 0; }
 .gb-process.gb-anim .gb-rail-node { background: #E5E5E5; }
@@ -304,6 +310,9 @@
   /* card static so the numbered node anchors to the list row (on the spine),
      not the card's corner — otherwise it overlaps the title */
   .gb-process .gb-card { padding: 20px; position: static; }
+  /* opacity-only reveal on mobile: no transform means the card stays a plain
+     static box, so the absolute number node anchors to the <li>, not the card */
+  .gb-process.gb-anim.gb-inview .gb-card { animation-name: gb-fade; }
 }
 
 /* ===== Legal pages (Privacy / Terms) prose ===== */
