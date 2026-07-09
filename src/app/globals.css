@@ -301,7 +301,9 @@
     justify-content: center;
     margin: 0;
   }
-  .gb-process .gb-card { padding: 20px; }
+  /* card static so the numbered node anchors to the list row (on the spine),
+     not the card's corner — otherwise it overlaps the title */
+  .gb-process .gb-card { padding: 20px; position: static; }
 }
 
 /* ===== Legal pages (Privacy / Terms) prose ===== */

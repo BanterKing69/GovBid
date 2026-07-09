@@ -108,8 +108,8 @@ export default function Home() {
 
       <main id="main">
         {/* ===== HERO ===== */}
-        <section className="pt-28 pb-16 md:pt-36 md:pb-24" aria-labelledby="hero-heading">
-          <div className="max-w-3xl mx-auto px-6 text-center hero-rise">
+        <section className="min-h-dvh flex flex-col items-center justify-center px-6 py-20" aria-labelledby="hero-heading">
+          <div className="max-w-3xl mx-auto text-center hero-rise">
             <h1 id="hero-heading" className="text-[30px] md:text-[48px] font-heading font-bold leading-[1.12] text-charcoal mb-6">
               <span className="block sm:whitespace-nowrap">£400bn of public contracts.</span>
               <span className="block">One connection away.</span>
